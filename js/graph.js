@@ -63,6 +63,9 @@ function generateGraph(funcName, arr) {
         exporting: {
             enabled: false
         },
+        credits: {
+            enabled: false
+        },
         series: [{
             name: 'Job',
             data: (function () {
