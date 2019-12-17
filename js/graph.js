@@ -7,7 +7,7 @@ function generateGraph(funcName, arr) {
         clearTimeout(gloabl_timeout1);
         clearTimeout(gloabl_timeout2);
     }
-    global_chart = Highcharts.chart('container', {
+    global_chart = Highcharts.chart('job-container', {
         chart: {
             type: 'spline',
             animation: Highcharts.svg, // don't animate in old IE

@@ -2,9 +2,12 @@
 <html lang="en" dir="ltr">
     <head>
         <meta charset="utf-8">
-        <title></title>
-        <link rel="stylesheet" href="css/index.css">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <title>Simulation</title>
+        <link rel="stylesheet" href="./css/index.css">
+        <link rel="stylesheet" href="./libs/LineProgressbar/jquery.lineProgressbar.css" />
+
+        <script src="https://pagecdn.io/lib/ace/1.4.6/ace.js" integrity="sha256-CVkji/u32aj2TeC+D13f7scFSIfphw2pmu4LaKWMSY8=" crossorigin="anonymous"></script>
+        <script src="https://pagecdn.io/lib/ace/1.4.6/theme-xcode.js" integrity="sha256-jLrBzcgtXmwiAviu7yWHnlKYsdjqI5d7r5dEOlfaTW4=" crossorigin="anonymous"></script>
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
@@ -14,27 +17,239 @@
 
     </head>
     <body>
-        <div id="container"></div>
-        <div id="control">
-            <button type="button" onclick="buttonEvent(this, 'exponential')" class="btn btn-primary">Exponential</button>
-            <button type="button" onclick="buttonEvent(this, 'deterministic')" class="btn btn-secondary">Deterministic</button>
-            <button type="button" onclick="buttonEvent(this, 'uniform')" class="btn btn-secondary">Uniform</button>
-            <button type="button" onclick="buttonEvent(this, 'erlang')" class="btn btn-secondary">Erlang</button>
-            <button type="button" onclick="buttonEvent(this, 'pareto')" class="btn btn-secondary">Pareto</button>
-        </div>
-        <div id="time">
-            <ul class="list-group">
-              <li class="list-group-item list-group-item-light">Arrival: the time between two job arrivals is exponentially distributed with mean 1 (second)</li>
-              <li id="exponential" class="list-group-item active">Exponential E𝑥𝑝(𝜆): Mean: 1/𝜆 | Defaults: lambda=1</li>
-              <li id="deterministic" class="list-group-item ">Deterministic D𝑒𝑡(𝑐): Mean: 𝑐 | Defauls: c=1</li>
-              <li id="uniform" class="list-group-item">Uniform U𝑛𝑖𝑓(𝑎,𝑏): Mean: (𝑏−𝑎)/2 | Defaults: a=0, b=2</li>
-              <li id="erlang" class="list-group-item">Erlang E𝑟𝑙𝑎𝑛𝑔(𝑛,𝜆): Mean: 𝑛/𝜆 | Defaults: n=2, lambda=1</li>
-              <li id="pareto" class="list-group-item">Pareto P𝑎𝑟𝑒𝑡𝑜(𝛼,𝜎,𝜇): Mean: 𝜇+(𝜎/𝛼−1) | Defaults: alpha=2, sigma=1, mu=sigma</li>
-            </ul>
+        <div id="head">
+            <div id="head-left">
+                <span class="head-left-span-img">
+                    <img src="./img/logo.png" alt="">
+                </span>
+                <span class="head-left-span-title">
+                    Simulation System
+                </span>
+            </div>
+            <div id="head-right">
+                <span class="head-right-span"></span>
 
+                <span class="head-right-span">
+                    <span class="head-right-span-up">
+                        <img src="./img/icon/save.png" alt="">
+                    </span>
+                    <span class="head-right-span-down">
+                        Save
+                    </span>
+                </span>
+                <span class="head-right-span">
+                    <span class="head-right-span-up">
+                        <img src="./img/icon/upload.png" alt="">
+                    </span>
+                    <span class="head-right-span-down">
+                        Upload
+                    </span>
+                </span>
+                <span class="head-right-span">
+                    <span class="head-right-span-up">
+                        <img src="./img/icon/Start.png" alt="">
+                    </span>
+                    <span class="head-right-span-down">
+                        Start
+                    </span>
+                </span>
+                <span class="head-right-span">
+                    <span class="head-right-span-up">
+                        <img src="./img/icon/image.png" alt="">
+                    </span>
+                    <span class="head-right-span-down">
+                        Image
+                    </span>
+                </span>
+                <span class="head-right-span">
+                    <span class="head-right-span-up">
+                        <img src="./img/icon/help.png" alt="">
+                    </span>
+                    <span class="head-right-span-down">
+                        Help
+                    </span>
+                </span>
+
+            </div>
+        </div>
+        <div id="body">
+            <div id="body-left">
+                <div id="body-left-title">
+                    <span>Parameters</span>
+                </div>
+
+                <div class="body-left-div">
+                    <div class="body-left-form-name">
+                        Arrival Rate*
+                    </div>
+                    <div class="body-left-form-input">
+                        <input class="user-input" type="text" name="" value="1.0">
+                    </div>
+                </div>
+                <div class="body-left-div">
+                    <div class="body-left-form-name">
+                        Servers Number*
+                    </div>
+                    <div class="body-left-form-input">
+                        <input class="user-input" type="text" name="" value="16">
+                    </div>
+                </div>
+                <div class="body-left-div">
+                    <div class="body-left-form-name">
+                        Job size distribution*
+                    </div>
+                    <div class="body-left-form-input">
+                        <select class="user-select">
+                            <option selected="" value="exponential">Exponential</option>
+                            <option value="deterministic">Deterministic</option>
+                            <option value="uniform">Uniform</option>
+                            <option value="erlang">Erlang</option>
+                            <option value="pareto">Pareto</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="body-left-div">
+                    <div class="body-left-form-name">
+                        Speedup Function*
+                    </div>
+                    <div class="body-left-form-input">
+                        <select class="user-select" onchange="speedupmanual(this)">
+                            <option selected="" value="Power">Power function</option>
+                            <option value="Amdahl">Amdahl’s law</option>
+                            <option value="Manual">Manual</option>
+                        </select>
+                    </div>
+
+                </div>
+                <div id="speedupmanual" style="display:none;" class="body-left-div">
+                    <input  class="user-input speedup-manual" type="text" name=""  value="2">
+                </div>
+
+                <div class="body-left-div">
+                    <div class="body-left-form-name">
+                        Scheduling Algorithm*
+                    </div>
+                    <div class="body-left-form-input">
+                        <select class="user-select" onchange="schedulingalgorithm(this)">
+                            <option selected="" value="EQUI">EQUI</option>
+                            <option value="selfdefined">Self Defined</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="schedulingalgorithm" style="display:block;" class="body-left-div"></div>
+
+            </div>
+            <div id="body-right">
+                <div id="body-right-up">
+                    <div id="body-right-up-left">
+                        <div id="job-container"></div>
+                    </div>
+                    <div id="body-right-up-right">
+                        <div id="body-right-up-right-name">
+                            Server Cluster
+                        </div>
+
+                        <div id="server-cluster">
+                            <div id="server-cluster-grid">
+                                <div class="server-cluster-grid-row">
+                                    <div class="server-cluster-grid-row-cell" style="background: rgb(246,124,95);">
+                                        20
+                                    </div>
+                                    <div class="server-cluster-grid-row-cell" >
+                                        10
+                                    </div>
+                                    <div class="server-cluster-grid-row-cell">
+                                        8
+                                    </div>
+                                    <div class="server-cluster-grid-row-cell" style="background: rgb(246,124,95);">
+                                        19
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="server-cluster-grid">
+                                <div class="server-cluster-grid-row">
+                                    <div class="server-cluster-grid-row-cell">
+                                        9
+                                    </div>
+                                    <div class="server-cluster-grid-row-cell" style="background: rgb(246,94,59)">
+                                        30
+                                    </div>
+                                    <div class="server-cluster-grid-row-cell">
+                                        8
+                                    </div>
+                                    <div class="server-cluster-grid-row-cell">
+                                        10
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="server-cluster-grid">
+                                <div class="server-cluster-grid-row">
+                                    <div class="server-cluster-grid-row-cell">
+                                        19
+                                    </div>
+                                    <div class="server-cluster-grid-row-cell" style="background: rgb(246,94,59)">
+                                        29
+                                    </div>
+                                    <div class="server-cluster-grid-row-cell">
+                                        18
+                                    </div>
+                                    <div class="server-cluster-grid-row-cell" style="background: rgb(246,94,59)">
+                                        27
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="server-cluster-grid">
+                                <div class="server-cluster-grid-row">
+                                    <div class="server-cluster-grid-row-cell">
+                                        20
+                                    </div>
+                                    <div class="server-cluster-grid-row-cell">
+                                        17
+                                    </div>
+                                    <div class="server-cluster-grid-row-cell" style="background: rgb(246,94,59)">
+                                        32
+                                    </div>
+                                    <div class="server-cluster-grid-row-cell">
+                                        19
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="body-right-down">
+                    <div id="body-right-down-name">
+                        Summary
+                    </div>
+                    <div id="process-bar">
+                        <div id="progress-container">
+                            <div id="progressbar1"></div>
+                        </div>
+                        <div id="progress-count">
+                            0%
+                        </div>
+                    </div>
+                    <div id="summary-content">
+                        <div id="summary-content-left">
+
+                        </div>
+                        <div id="summary-content-right">
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </body>
-    <script src="js/jobfunctions.js" charset="utf-8"></script>
-    <script src="js/graph.js" charset="utf-8"></script>
-    <script src="js/index.js" charset="utf-8"></script>
+    <script src="./js/jobfunctions.js" charset="utf-8"></script>
+    <script src="./js/graph.js" charset="utf-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.js"></script>
+    <script src="./libs/LineProgressbar/jquery.lineProgressbar.js"></script>
+    <script src="./js/index.js" charset="utf-8"></script>
+
+
+
 </html>
