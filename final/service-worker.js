@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/simulation/final/precache-manifest.134ea7d482dfdff9724f332f9f182e65.js"
+  "/simulation/final/precache-manifest.7df8aea2228255ed6c5aed90725c6844.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "sched-js"});
