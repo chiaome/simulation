@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.0.4/gsap.min.js"></script>
+
+    </head>
+    <style>
+        body {
+          margin: 10px;
+        }
+
+        .box {
+          display: block;
+          background-color: red;
+          width: 20px;
+          height: 40px;
+          margin-top: 20px;
+        }
+
+    </style>
+    <body>
+
+        <h2 class="title">gsap.to() Basic Usage</h2>
+        <div id="test" class="box orange"></div>
+        <div class="box grey"></div>
+        <div class="box green"></div>
+
+    </body>
+    <script type="text/javascript">
+        gsap.to("h2.title", {duration: 10, opacity: 0.3});
+        gsap.to(".box", {duration: 5, x: 300});
+        gsap.to(".green", {duration: 5, rotation: 360, scale: 0.5});
+        console.log("This is a test");
+        document.getElementById('test').remove();
+    </script>
+</html>
